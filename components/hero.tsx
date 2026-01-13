@@ -18,60 +18,10 @@ export function Hero() {
     canvas.height = canvas.offsetHeight * 2
     ctx.scale(2, 2)
 
-    const nodes = [
-      { x: 50, y: 100, label: "Extract", progress: 0 },
-      { x: 200, y: 100, label: "Transform", progress: 0 },
-      { x: 350, y: 100, label: "Load", progress: 0 },
-    ]
-
     let animationFrame: number
-    let time = 0
 
     const animate = () => {
-      time += 0.02
       ctx.clearRect(0, 0, canvas.width / 2, canvas.height / 2)
-
-      // Draw connections with flowing particles
-      for (let i = 0; i < nodes.length - 1; i++) {
-        const from = nodes[i]
-        const to = nodes[i + 1]
-
-        // Connection line
-        ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--border").trim()
-        ctx.lineWidth = 2
-        ctx.beginPath()
-        ctx.moveTo(from.x + 30, from.y)
-        ctx.lineTo(to.x - 30, to.y)
-        ctx.stroke()
-
-        // Flowing particle
-        const progress = (Math.sin(time + i) + 1) / 2
-        const particleX = from.x + 30 + (to.x - from.x - 60) * progress
-        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--primary").trim()
-        ctx.beginPath()
-        ctx.arc(particleX, from.y, 4, 0, Math.PI * 2)
-        ctx.fill()
-      }
-
-      // Draw nodes
-      nodes.forEach((node, i) => {
-        const isActive = Math.sin(time + i * 0.5) > 0
-
-        // Node circle
-        ctx.fillStyle = isActive
-          ? getComputedStyle(document.documentElement).getPropertyValue("--primary").trim()
-          : getComputedStyle(document.documentElement).getPropertyValue("--muted").trim()
-        ctx.beginPath()
-        ctx.arc(node.x, node.y, 25, 0, Math.PI * 2)
-        ctx.fill()
-
-        // Node label
-        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--foreground").trim()
-        ctx.font = "12px sans-serif"
-        ctx.textAlign = "center"
-        ctx.fillText(node.label, node.x, node.y + 45)
-      })
-
       animationFrame = requestAnimationFrame(animate)
     }
 
@@ -88,14 +38,6 @@ export function Hero() {
       </div>
       <div className="container mx-auto px-4 py-24 md:py-32 relative">
         <div className="mx-auto max-w-4xl text-center space-y-8">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted px-4 py-1.5 text-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            <span className="text-muted-foreground">Open Source Workflow Orchestration</span>
-          </div>
-
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-balance">
             Event-Driven Workflows, <span className="text-primary">Simplified</span>
           </h1>
